@@ -1,17 +1,19 @@
+// файл effects.ts
 import { createEffect } from "effector";
 
-export const fetchData = createEffect(async () => {
-  const url = `https://api.jikan.moe/v4/anime/1/full`;
-  const request = await fetch(url);
-  return request.json();
+export const fetchAnime = createEffect(async () => {
+  const url = `https://api.jikan.moe/v4/anime`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    const data = await response.json();
+    return data.data; // предполагается, что нужные данные находятся в поле data
+  } catch (error) {
+    console.error("Error fetching anime:", error);
+    throw error; // Проброс ошибки дальше, если это необходимо
+  }
 });
 
-fetchData();
-
-// export const fetchData = createEffect();
-
-// fetchData.use(async () => {
-//   const url = `https://swapi.dev/api/people/2`;
-//   const request = await fetch(url);
-//   return request.json();
-// });
+fetchAnime();

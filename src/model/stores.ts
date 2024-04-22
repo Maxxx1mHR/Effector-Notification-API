@@ -1,6 +1,7 @@
+// файл stores.ts
 import { createStore } from "effector";
-import { fetchData } from "./effects";
+import { fetchAnime } from "./effects";
 
-export const $data = createStore<any>(null).on(fetchData.doneData, (_, data) => data);
-
-// export const $data = createStore("test123");
+export const $animeData = createStore([]) // начальное значение - пустой массив
+  .on(fetchAnime.doneData, (state, anime) => anime) // обновляем состояние при успешном получении данных
+  .reset(fetchAnime.fail); // сброс состояния при ошибке
